@@ -2,11 +2,18 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.auth import router as auth_router
-from src.api.hospital_audit import router as hospital_audit_router
-from src.api.sftp_upload import router as sftp_upload_router
-from src.api.random import router as random_router
-from src.models.user import Base
+from src.api.hospital import router as hospital_basic
+from src.model.user import Base
 from src.database import engine
+
+from src.api.dataentry import router as data_entry_router
+from src.api.case_details import router as case_details_router
+from src.api.findings import router as findings_router
+from src.api.reports import router as reports_router
+from src.api.get_all_reports import router as get_all_routers
+from src.api.sftp_upload import router as sftp_router
+from src.api.send_email import router as send_email_router
+from src.api.employee_master import router as employee_master_router
 
 app = FastAPI(title="Hospital Audit API")
 Base.metadata.create_all(bind=engine)
@@ -24,9 +31,16 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix='/auth')
-app.include_router(hospital_audit_router)
-app.include_router(sftp_upload_router)
-app.include_router(random_router)
+app.include_router(hospital_basic)
+app.include_router(data_entry_router)
+app.include_router(case_details_router)
+app.include_router(findings_router)
+app.include_router(reports_router)
+app.include_router(get_all_routers)
+app.include_router(sftp_router)
+app.include_router(send_email_router)
+app.include_router(employee_master_router)
+
 
 
 @app.get("/")

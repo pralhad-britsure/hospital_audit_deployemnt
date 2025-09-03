@@ -1,0 +1,59 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+
+
+# PyCharm project settings
+.idea/
+
+# VSCode (optional, in case you use it too)
+.vscode/
+
+# MyPy, Pyright, Pytest, Coverage, etc.
+.mypy_cache/
+.pytest_cache/
+.pytype/
+.coverage
+htmlcov/
+
+
+# Logs and local databases
+*.log
+*.sqlite3
+*.db
+
+
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Compiled HTML/static site (if used with Jinja2 templates)
+staticfiles/
+public/
+dist/
+
+# Pydantic compiled models (if used)
+*.pydantic
+
+# __init__.py for migration/empty modules
+**/__init__.pyc
+ .idea
