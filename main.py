@@ -14,6 +14,7 @@ from src.api.get_all_reports import router as get_all_routers
 from src.api.sftp_upload import router as sftp_router
 from src.api.send_email import router as send_email_router
 from src.api.employee_master import router as employee_master_router
+from src.api.reallocation import router as reallocation_router
 
 app = FastAPI(title="Hospital Audit API")
 Base.metadata.create_all(bind=engine)
@@ -40,6 +41,7 @@ app.include_router(get_all_routers)
 app.include_router(sftp_router)
 app.include_router(send_email_router)
 app.include_router(employee_master_router)
+app.include_router(reallocation_router)
 
 
 

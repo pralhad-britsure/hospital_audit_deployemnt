@@ -249,7 +249,6 @@ def is_empty_value(value):
         return len(value) == 0
     return False
 
-
 def export_hospitals_to_excel(hospitals: List[FullHospitalData]):
     flat_data = []
     excluded_fields = ['hospital_id']
@@ -258,19 +257,15 @@ def export_hospitals_to_excel(hospitals: List[FullHospitalData]):
         row = {}
         if h.basic_info:
             basic_info_dict = h.basic_info.dict()
-            filtered_dict = {}
-            for key, value in basic_info_dict.items():
-                if key not in excluded_fields and not is_empty_value(value):
-                    filtered_dict[key] = value
+            # keep all keys, even if value is None/empty
+            filtered_dict = {key: value for key, value in basic_info_dict.items() if key not in excluded_fields}
             row.update(filtered_dict)
         flat_data.append(row)
-    flat_data = [row for row in flat_data if row]
 
     if not flat_data:
         df = pd.DataFrame()
     else:
         df = pd.DataFrame(flat_data)
-        df = df.dropna(axis=1, how='all')
 
     stream = BytesIO()
     df.to_excel(stream, index=False)
@@ -281,6 +276,40 @@ def export_hospitals_to_excel(hospitals: List[FullHospitalData]):
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         headers={"Content-Disposition": "attachment; filename=hospitals.xlsx"}
     )
+
+
+#
+# def export_hospitals_to_excel(hospitals: List[FullHospitalData]):
+#     flat_data = []
+#     excluded_fields = ['hospital_id']
+#
+#     for h in hospitals:
+#         row = {}
+#         if h.basic_info:
+#             basic_info_dict = h.basic_info.dict()
+#             filtered_dict = {}
+#             for key, value in basic_info_dict.items():
+#                 if key not in excluded_fields and not is_empty_value(value):
+#                     filtered_dict[key] = value
+#             row.update(filtered_dict)
+#         flat_data.append(row)
+#     flat_data = [row for row in flat_data if row]
+#
+#     if not flat_data:
+#         df = pd.DataFrame()
+#     else:
+#         df = pd.DataFrame(flat_data)
+#         df = df.dropna(axis=1, how='all')
+#
+#     stream = BytesIO()
+#     df.to_excel(stream, index=False)
+#     stream.seek(0)
+#
+#     return StreamingResponse(
+#         stream,
+#         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+#         headers={"Content-Disposition": "attachment; filename=hospitals.xlsx"}
+#     )
 
 from docx import Document
 from docx.shared import Inches, Pt
